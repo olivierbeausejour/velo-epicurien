@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head lang="fr">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width-device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+        <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+        <title>Vélo Épicurien</title>
+        <link rel="shortcut icon" href="{{url_for('static', filename='favicon.ico')}}">
+    </head>
+    <body>
+        <div id="bikeMap"></div>
+
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+        <script>drawMap(JSON.parse('{{ restaurants|tojson }}'), JSON.parse('{{ segments|tojson }}'))</script>
+    </body>
+</html>

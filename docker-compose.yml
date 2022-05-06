@@ -1,0 +1,43 @@
+version: '3.7'
+services:
+  app:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - .:/app
+    depends_on:
+      - mongodb
+      - neo4j
+      - seeder
+
+  mongodb:
+    image: 'mongo:4.2'
+    environment:
+      - MONGO_INITDB_DATABASE=parcoursvelo
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - ./db/mongo/parcoursvelo:/data/db
+    ports:
+      - "27017:27017"
+
+  neo4j:
+    image: 'neo4j:latest'
+    ports:
+      - 7474:7474
+      - 7687:7687
+    environment:
+      - NEO4J_AUTH=neo4j/password
+      - NEO4J_dbms_recovery_fail__on__missing__files=false
+    volumes:
+      - ./db/neo4j/parcoursvelo:/data/databases/neo4j
+
+  seeder:
+    build: ./seeder
+    volumes:
+    - ./seeder/data/:/data/
+    depends_on:
+      - mongodb
+      - neo4j
+    restart: on-failure
